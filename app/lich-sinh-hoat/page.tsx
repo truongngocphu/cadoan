@@ -1,151 +1,228 @@
 "use client"
-
 import { useState } from "react"
 import Header from "@/components/header"
 import Navigation from "@/components/navigation"
 import Calendar from "@/components/calendar"
-import { CalendarIcon, Clock, MapPin, FileText } from "lucide-react"
+import { CalendarIcon, Music } from "lucide-react"
 
+const liturgicalSongs = [
+  {
+    id: 1,
+    date: "2025-09-28",
+    liturgicalSeason: "Chúa Nhật Thường Niên 26C",
+    occasion: "Chủ Đề: Chấp nhận khốn khó vì cuộc sống đời đời.",
+    songs: [
+      { type: "Nhập lễ", title: "B.72 Cửa Công Chính", composer: "Truyền thống" },
+      { type: "Bộ lễ", title: "Ca Lên Đi 2 | MNĐT1", composer: "Truyền thống" },
+      { type: "Đáp ca", title: "Tv-145 | Mp3", composer: "Truyền thống" },
+      { type: "AL & XPÂ", title: "Trong đáp ca (Mẫu số 1 D)", composer: "Truyền thống" },
+      { type: "Dâng lễ", title: "B.187 Những Người Đó", composer: "Truyền thống" },
+      { type: "Hiệp lễ", title: "B.143 Chúa Sẽ Đền Bù", composer: "Truyền thống" },
+      { type: "Kết lễ", title: "B.326 Lạy Mẹ Xin", composer: "Truyền thống" }
+    ]
+  },
+  {
+    id: 2,
+    date: "2025-10-05",
+    liturgicalSeason: "Chúa Nhật Thường Niên 27C",
+    occasion: "Chủ Đề: Sức mạnh của niềm tin.",
+    songs: [
+      { type: "Nhập lễ", title: "B.98 Về Nơi Đây", composer: "Truyền thống" },
+      { type: "Bộ lễ", title: "Ca Lên Đi 2 | MNĐT1", composer: "Truyền thống" },
+      { type: "Đáp ca", title: "Tv-94 | Mp3", composer: "Truyền thống" },
+      { type: "AL & XPÂ", title: "Trong đáp ca (Mẫu số 1 D)", composer: "Truyền thống" },
+      { type: "Dâng lễ", title: "B.265 Xin Ban Thêm Lòng Tin", composer: "Truyền thống" },
+      { type: "Hiệp lễ", title: "B.141 Con Hướng Về Chúa", composer: "Truyền thống" },
+      { type: "Kết lễ", title: "B.320 Nữ Vương Mân Côi", composer: "Truyền thống" }
+    ]
+  },
+  {
+    id: 3,
+    date: "2025-10-11",
+    liturgicalSeason: "Lễ Thánh Giêrađô",
+    occasion: "Chủ Đề: Lễ Thánh Giêrađô.",
+    songs: [
+      { type: "Nhập lễ", title: "Lễ Thánh Gierado", composer: "Truyền thống" },
+      { type: "Bộ lễ", title: "Ca Lên Đi 2 & MNĐT 1", composer: "Truyền thống" },
+      { type: "Đáp ca", title: "Tv-15 | Mp3", composer: "Truyền thống" },
+      { type: "AL & XPÂ", title: "Alleluia Ga 12, 26", composer: "Truyền thống" },
+      { type: "Dâng lễ", title: "Có Một Tình Yêu", composer: "Truyền thống" },
+      { type: "Hiệp lễ", title: "Về Bên Chúa", composer: "Truyền thống" },
+      { type: "Kết lễ", title: "Tạ Ơn Chúa Với Mẹ", composer: "Truyền thống" }
+    ]
+  },
+  {
+    id: 24,
+    date: "2025-10-12",
+    liturgicalSeason: "Chúa Nhật Thường Niên 28C",
+    occasion: "Chủ Đề: Sống Tri Ân và Cảm Tạ.",
+    songs: [
+      { type: "Nhập lễ", title: "B.65 Chung Lời Cảm Tạ", composer: "Truyền thống" },
+      { type: "Bộ lễ", title: "Ca Lên Đi 2 | MNĐT 1", composer: "Truyền thống" },
+      { type: "Đáp ca", title: "Tv-97 | Mp3", composer: "Truyền thống" },
+      { type: "AL & XPÂ", title: "Trong đáp ca (Mẫu số 1 D)", composer: "Truyền thống" },
+      { type: "Dâng lễ", title: "B.115 Chẳng Biết Lấy Gì", composer: "Truyền thống" },
+      { type: "Hiệp lễ", title: "B.224 Tạ Ơn Trời", composer: "Truyền thống" },
+      { type: "Kết lễ", title: "B.311 Lời Mẹ Nhắn Nhủ", composer: "Truyền thống" }
+    ]
+  },
+  {
+    id: 25,
+    date: "2025-10-19",
+    liturgicalSeason: "Chúa Nhật Thường Niên 29C",
+    occasion: "Chủ Đề: Vững Lòng Trông Cậy; Khánh Nhật Truyền Giáo.",
+    songs: [
+      { type: "Nhập lễ", title: "B.90 Tôi Muốn Hát", composer: "Truyền thống" },
+      { type: "Bộ lễ", title: "Ca Lên Đi 2 | MNĐT 1", composer: "Truyền thống" },
+      { type: "Đáp ca", title: "Tv-120 | Mp3", composer: "Truyền thống" },
+      { type: "AL & XPÂ", title: "Trong đáp ca (Mẫu số 1 D)", composer: "Truyền thống" },
+      { type: "Dâng lễ", title: "B.178 Trông Cậy Chúa", composer: "Truyền thống" },
+      { type: "Hiệp lễ", title: "B.181 Nguồn Trợ Lực Đời Tôi", composer: "Truyền thống" },
+      { type: "Kết lễ", title: "B.277 Lời Nguyện Truyền Giáo", composer: "Truyền thống" }
+    ]
+  },
+  {
+    id: 26,
+    date: "2025-10-26",
+    liturgicalSeason: "Chúa Nhật Thường Niên 30C",
+    occasion: "Chủ Đề: Sống Khiêm Hạ.",
+    songs: [
+      { type: "Nhập lễ", title: "B.82 Ngàn Dân Ơi", composer: "Truyền thống" },
+      { type: "Bộ lễ", title: "Ca Lên Đi 2 | MNĐT 1", composer: "Truyền thống" },
+      { type: "Đáp ca", title: "Tv-33 | Mp3", composer: "Truyền thống" },
+      { type: "AL & XPÂ", title: "Trong đáp ca (Mẫu số 1 D)", composer: "Truyền thống" },
+      { type: "Dâng lễ", title: "B.266 Có Gì Để Dâng", composer: "Truyền thống" },
+      { type: "Hiệp lễ", title: "Biết Chúa Biết Con", composer: "Truyền thống" },
+      { type: "Kết lễ", title: "B.324 Hoa Mân Côi", composer: "Truyền thống" }
+    ]
+  },
+  {
+    id: 27,
+    date: "2025-07-12T15:30:00",
+    liturgicalSeason: "Lễ Cưới: Trần Khanh & Nguyễn Đào",
+    occasion: "Chủ Đề: Bí Tích Hôn Phối",
+    songs: [
+      { type: "Nhập lễ", title: "P-Hôm Nay Hân Hoan", composer: "Truyền thống" },
+      { type: "Bộ lễ", title: "Ca Lên Đi 2 | MNĐT1", composer: "Truyền thống" },
+      { type: "Đáp ca", title: "Tv-127", composer: "Truyền thống" },
+      { type: "AL & XPÂ", title: "F-22", composer: "Truyền thống" },
+      { type: "Dâng lễ", title: "F-29 Khi Hoa Nở Miền Cana", composer: "Truyền thống" },
+      { type: "Hiệp lễ", title: "F-15 Nguyện Cầu Cho Nhau", composer: "Truyền thống" },
+      { type: "Cha Mẹ", title: "F-28 Tình Cha Nghĩa Mẹ", composer: "Truyền thống" },
+      { type: "Đức Mẹ", title: "F-30 Dâng Mẹ Đời Hôn Nhân", composer: "Truyền thống" },
+      { type: "Kết lễ", title: "F-20 Diễm Tình Ca 3", composer: "Truyền thống" }
+    ]
+  },
+  {
+    id: 28,
+    date: "2025-07-13",
+    liturgicalSeason: "Chúa Nhật Thường Niên 15C",
+    occasion: "Chủ Đề: Đối xử nhân hậu với tha nhân.",
+    songs: [
+      { type: "Nhập lễ", title: "B-84 Nhập Lễ 2", composer: "Truyền thống" },
+      { type: "Bộ lễ", title: "Ca Lên Đi 2 | MNĐT1", composer: "Truyền thống" },
+      { type: "Đáp ca", title: "Tv-68 | Mp3", composer: "Truyền thống" },
+      { type: "AL & XPÂ", title: "Trong đáp ca (Mẫu số 1 D)", composer: "Truyền thống" },
+      { type: "Dâng lễ", title: "B-187 Những Người Đó", composer: "Truyền thống" },
+      { type: "Hiệp lễ", title: "B-142 Có Bao Giờ", composer: "Truyền thống" },
+      { type: "Kết lễ", title: "B-162 Đâu Có Tình Yêu Thương", composer: "Truyền thống" }
+    ]
+  }
+]
+
+interface Song {
+  type: string
+  title: string
+  composer: string
+}
+
+interface SongEvent {
+  id: string
+  date: string
+  liturgicalSeason: string
+  occasion: string
+  songs: Song[]
+}
+
+// Calendar cần type Event
 interface Event {
   id: string
+  date: string
   title: string
   time: string
   location: string
   notes: string
-  date: string
 }
 
-export default function ActivityCalendarPage() {
-  const [events, setEvents] = useState<Event[]>([
-    {
-      id: "1",
-      title: "Tập hát Chúa Nhật",
-      time: "19:00",
-      location: "Phòng nhạc",
-      notes: "Tập bài hát cho Chúa Nhật tuần sau",
-      date: "2024-12-28",
-    },
-    {
-      id: "2",
-      title: "Lễ Giáng Sinh",
-      time: "20:00",
-      location: "Nhà thờ chính",
-      notes: "Thánh lễ đêm Giáng Sinh",
-      date: "2024-12-24",
-    },
-    {
-      id: "3",
-      title: "Họp ca đoàn",
-      time: "18:30",
-      location: "Phòng họp",
-      notes: "Họp định kỳ tháng 12",
-      date: "2024-12-30",
-    },
-  ])
 
-  const handleAddEvent = (date: string, eventData: Omit<Event, "id" | "date">) => {
-    const newEvent: Event = {
-      id: Date.now().toString(),
-      date,
-      ...eventData,
-    }
-    setEvents((prev) => [...prev, newEvent])
-  }
+// --- Page Component ---
+export default function LiturgicalCalendarPage() {
+  const [selectedEvent, setSelectedEvent] = useState<SongEvent | null>(null)
 
-  // Get upcoming events (next 5 events)
-  const upcomingEvents = events
-    .filter((event) => new Date(event.date) >= new Date())
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-    .slice(0, 5)
+  const calendarEvents: Event[] = liturgicalSongs.map(e => ({
+    id: e.id.toString(),
+    date: e.date,
+    title: e.liturgicalSeason,
+    time: "",
+    location: "",
+    notes: ""
+  }))
 
   return (
     <div className="min-h-screen bg-background">
       <Header />
       <Navigation />
-
       <main className="container mx-auto px-4 py-8">
-        {/* Page Header */}
         <div className="mb-8">
-          <h1 className="heading-primary text-3xl md:text-4xl font-bold text-foreground mb-4">Lịch Sinh Hoạt</h1>
+          <h1 className="heading-primary text-3xl md:text-4xl font-bold text-foreground mb-4">
+            Lịch Ca Mục Hát Lễ
+          </h1>
           <p className="text-muted-foreground text-lg leading-relaxed">
-            Theo dõi các hoạt động và sự kiện của Ca Đoàn Augustinô. Nhấp vào ngày để thêm sự kiện mới.
+            Nhấp vào ngày trên lịch để xem chi tiết các ca mục phụng vụ.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Calendar */}
           <div className="lg:col-span-2">
-            <Calendar events={events} onAddEvent={handleAddEvent} />
+            <Calendar
+              events={calendarEvents}
+              onDayClick={(date) => {
+                const matchedEvent = liturgicalSongs.find(e => e.date === date)
+                setSelectedEvent(matchedEvent || null)
+              }}
+            />
           </div>
 
-          {/* Upcoming Events Sidebar */}
           <div className="space-y-6">
-            {/* Upcoming Events */}
-            <div className="bg-card rounded-xl p-6 shadow-sm">
-              <h3 className="heading-secondary text-xl font-semibold text-card-foreground mb-4 flex items-center gap-2">
-                <CalendarIcon size={20} />
-                Sự Kiện Sắp Tới
-              </h3>
+            {selectedEvent ? (
+              <div className="bg-card rounded-xl p-6 shadow-sm">
+                <h3 className="heading-secondary text-xl font-semibold text-card-foreground mb-4 flex items-center gap-2">
+                  <CalendarIcon size={20} />
+                  {new Date(selectedEvent.date).toLocaleDateString("vi-VN", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
+                </h3>
+                <p className="text-sm text-muted-foreground mb-2 font-semibold">{selectedEvent.liturgicalSeason}</p>
+                <p className="text-sm text-muted-foreground mb-4">{selectedEvent.occasion}</p>
 
-              {upcomingEvents.length > 0 ? (
-                <div className="space-y-4">
-                  {upcomingEvents.map((event) => (
-                    <div key={event.id} className="p-4 bg-muted/30 rounded-lg">
-                      <h4 className="font-semibold text-card-foreground mb-2">{event.title}</h4>
-                      <div className="space-y-1 text-sm text-muted-foreground">
-                        <div className="flex items-center gap-2">
-                          <CalendarIcon size={14} />
-                          {new Date(event.date).toLocaleDateString("vi-VN", {
-                            weekday: "short",
-                            month: "short",
-                            day: "numeric",
-                          })}
+                <div className="space-y-3">
+                  {selectedEvent.songs.map((song, idx) => (
+                    <div key={idx} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors">
+                      <div className="flex items-center gap-2 flex-1">
+                        <Music size={16} className="text-primary flex-shrink-0" />
+                        <div className="min-w-0 flex-1">
+                          <h4 className="font-semibold text-card-foreground truncate">{song.title}</h4>
+                          <p className="text-sm text-muted-foreground">{song.composer}</p>
                         </div>
-                        {event.time && (
-                          <div className="flex items-center gap-2">
-                            <Clock size={14} />
-                            {event.time}
-                          </div>
-                        )}
-                        {event.location && (
-                          <div className="flex items-center gap-2">
-                            <MapPin size={14} />
-                            {event.location}
-                          </div>
-                        )}
-                        {event.notes && (
-                          <div className="flex items-start gap-2 mt-2">
-                            <FileText size={14} className="mt-0.5" />
-                            <span className="text-xs">{event.notes}</span>
-                          </div>
-                        )}
                       </div>
+                      <span className="px-2 py-1 rounded text-xs font-medium whitespace-nowrap ml-2 bg-primary/10 text-primary">{song.type}</span>
                     </div>
                   ))}
                 </div>
-              ) : (
-                <p className="text-muted-foreground text-center py-8">Chưa có sự kiện nào được lên lịch</p>
-              )}
-            </div>
-
-            {/* Quick Actions */}
-            <div className="bg-card rounded-xl p-6 shadow-sm">
-              <h3 className="heading-secondary text-xl font-semibold text-card-foreground mb-4">Hướng Dẫn</h3>
-              <div className="space-y-3 text-sm text-muted-foreground">
-                <div className="flex items-start gap-2">
-                  <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                  <span>Nhấp vào bất kỳ ngày nào trên lịch để thêm sự kiện mới</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                  <span>Các sự kiện sẽ hiển thị dưới dạng nhãn màu trên lịch</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                  <span>Sử dụng nút điều hướng để xem các tháng khác</span>
-                </div>
               </div>
-            </div>
+            ) : (
+              <div className="bg-card rounded-xl p-6 shadow-sm text-center text-muted-foreground">
+                Nhấp vào một ngày trên lịch để xem chi tiết ca mục.
+              </div>
+            )}
           </div>
         </div>
       </main>
