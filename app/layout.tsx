@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { Poppins } from "next/font/google"
 import "./globals.css"
 import { AuthProvider } from "@/components/auth-context"
+import { LanguageProvider } from "@/components/LanguageContext"
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -13,9 +14,11 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: "Ca Đoàn Augustinô - Giáo Xứ Đức Mẹ Hằng Cứu Giúp",
-  description: "Website chính thức của Ca Đoàn Augustinô, Giáo Xứ Đức Mẹ Hằng Cứu Giúp, Garland, Texas",
-  keywords: "ca đoàn, augustino, giáo xứ, garland, texas, công giáo, vietnamese catholic",
-    generator: 'v0.app'
+  description:
+    "Website chính thức của Ca Đoàn Augustinô, Giáo Xứ Đức Mẹ Hằng Cứu Giúp, Garland, Texas",
+  keywords:
+    "ca đoàn, augustino, giáo xứ, garland, texas, công giáo, vietnamese catholic",
+  generator: "v0.app",
 }
 
 export default function RootLayout({
@@ -26,7 +29,9 @@ export default function RootLayout({
   return (
     <html lang="vi" className={`${poppins.variable} antialiased`}>
       <body className="font-sans vietnamese-text bg-background text-foreground">
-        <AuthProvider>{children}</AuthProvider>
+        <LanguageProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </LanguageProvider>
       </body>
     </html>
   )
