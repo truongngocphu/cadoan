@@ -16,7 +16,7 @@ export default function Header() {
           <div className="flex-shrink-0">
             <div className="w-16 h-16 md:w-20 md:h-20 bg-white rounded-full flex items-center justify-center shadow-sm">
               <span className="text-primary font-bold text-lg md:text-xl">
-                <img src="/logo.png" alt="Logo" />
+                <img src="https://v0-ca-doan-website-git-main-truongngocphus-projects.vercel.app/logo.png" alt="Logo" />
               </span>
             </div>
           </div>
