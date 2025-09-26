@@ -9,7 +9,7 @@ const navigationItems = [
   { href: "/ca-muc-hat-le", label: "Ca Mục Hát Lễ" },
   { href: "/lich-sinh-hoat", label: "Lịch Sinh Hoạt" },
   { href: "/thu-vien", label: "Thư Viện" },
-  { href: "/trang-noi-bo", label: "Trang Nội Bộ" },
+  // { href: "/trang-noi-bo", label: "Trang Nội Bộ" },
   { href: "/ve-ca-doan", label: "Về Ca Đoàn" },
   { href: "/lien-lac", label: "Liên Lạc" },
 ]
